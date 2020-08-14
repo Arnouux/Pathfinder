@@ -1,0 +1,1 @@
+Pathfinding on a size changing table
