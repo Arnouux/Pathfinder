@@ -23,6 +23,7 @@ public class ui extends JFrame implements ActionListener {
 	private JLabel size;
 	
 	private Button a_star_button;
+	private Button brute_force_button;
 	
 	private int size_int;
 
@@ -58,6 +59,10 @@ public class ui extends JFrame implements ActionListener {
 		a_star_button.addActionListener(this);
 		this.add(a_star_button);
 		
+		brute_force_button = new Button("Brute Force");
+		brute_force_button.addActionListener(this);
+		this.add(brute_force_button);
+		
 		this.view = new Drawer(this, this.table);
 
 		
@@ -86,12 +91,19 @@ public class ui extends JFrame implements ActionListener {
 			refresh();
 		}
 		else if(source == a_star_button && table.checkPresence(2) && table.checkPresence(3)) {
-			this.table.show();
+			//this.table.show();
 			System.out.println("A*");
 			A_star result = new A_star(this.table, this.view);
 			this.view.invalidate();
 			this.view.repaint();
-			this.table.show();
+		}
+		
+		else if(source == brute_force_button && table.checkPresence(2) && table.checkPresence(3)) {
+			//this.table.show();
+			System.out.println("Brute Force");
+			BruteForce result = new BruteForce(this.table, this.view);
+			this.view.invalidate();
+			this.view.repaint();
 		}
 		
 

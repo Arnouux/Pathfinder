@@ -19,7 +19,7 @@ public class Node {
 		this.y = y;
 		this.cost = 0;
 		this.heuristic = 0;
-	}
+	} 
 	
 	public int getValue() {
 		return this.value;
@@ -82,12 +82,14 @@ public class Node {
 		if (this.getX() > 0 && (table.getCase(this.getX()-1, this.getY()) == 0 || table.getCase(this.getX()-1, this.getY()) == 3)) {
 			neighbors.add(new Node(this.getX()-1, this.getY()));
 		}
-		if (this.getX() < size-1 && (table.getCase(this.getX()+1, this.getY()) == 0 || table.getCase(this.getX()+1, this.getY()) == 3)) {
-			neighbors.add(new Node(this.getX()+1, this.getY()));
-		}
 		if (this.getY() > 0 && (table.getCase(this.getX(), this.getY()-1) == 0 || table.getCase(this.getX(), this.getY()-1) == 3)) {
 			neighbors.add(new Node(this.getX(), this.getY()-1));
 		}
+		
+		if (this.getX() < size-1 && (table.getCase(this.getX()+1, this.getY()) == 0 || table.getCase(this.getX()+1, this.getY()) == 3)) {
+			neighbors.add(new Node(this.getX()+1, this.getY()));
+		}
+
 		if (this.getY() < size-1 && (table.getCase(this.getX(), this.getY()+1) == 0 || table.getCase(this.getX(), this.getY()+1) == 3)) {
 			neighbors.add(new Node(this.getX(), this.getY()+1));
 		}

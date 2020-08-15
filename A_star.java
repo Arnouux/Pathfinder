@@ -20,7 +20,7 @@ public class A_star {
 		start.setG(0);
 		start.setHeurstic(estimateDistance(start, end));
 		start.setF(start.getHeuristic());
-		
+
 		openSet.add(start);
 		
 		while (true) {
@@ -47,21 +47,19 @@ public class A_star {
 			closedSet.add(current);
 			
 			for (Node neighbor : current.getNeighbors(table)) {
-				if (neighbor == null) {
-					continue;
-				}
 				
-				int nextG = current.getG() + neighbor.getCost();
+//				int nextG = current.getG() + neighbor.getCost();
+//				
+//				if (nextG < neighbor.getG()) {
+//					openSet.remove(neighbor);
+//					closedSet.remove(neighbor);
+//				}
 				
-				if (nextG < neighbor.getG()) {
-					openSet.remove(neighbor);
-					closedSet.remove(neighbor);
-				}
-				
-				if (!openSet.contains(neighbor) && !closedSet.contains(neighbor) && table.getCase(neighbor.getX(), neighbor.getY())!=1) {
-					neighbor.setG(nextG);
+				if (!(containsInferiorCost(openSet, neighbor) && closedSet.contains(neighbor))) {
+					neighbor.setCost(current.getCost()+1);
+//					neighbor.setG(nextG);
 					neighbor.setHeurstic(estimateDistance(neighbor, end));
-					neighbor.setF(neighbor.getG() + neighbor.getHeuristic());
+//					neighbor.setF(neighbor.getG() + neighbor.getHeuristic());
 					neighbor.setParent(current);
 					openSet.add(neighbor);
 					table.setStart(current.getX(), current.getY());
@@ -79,7 +77,6 @@ public class A_star {
 			table.setPath(current.getX(), current.getY());
 		}
 		table.setEnd(end.getX(), end.getY());
-		table.setStart(start.getX(), start.getY());
 		nodes.add(start);
 		
 		

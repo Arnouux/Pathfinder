@@ -34,7 +34,7 @@ public class Table {
 				if (this.table[i][j] == x) {
 					this.table[i][j] = 0;
 				}
-			}
+			} 
 		}
 	}
 	
