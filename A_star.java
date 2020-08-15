@@ -9,55 +9,123 @@ public class A_star {
 	private Node start;
 	private Node end;
 	
-	public A_star(Table table) {
+	public A_star(Table table, Drawer view) {
 
 		this.start = table.getStart();
 		this.end = table.getEnd();
 		
-		List<Node> closedList = new ArrayList<Node>();
-		List<Node> openList = new ArrayList<Node>();
-		openList.add(this.start);
+		List<Node> openSet = new ArrayList<Node>();
+		List<Node> closedSet = new ArrayList<Node>();
+		// https://stackoverflow.com/questions/5601889/unable-to-implement-a-star-in-java
+		start.setG(0);
+		start.setHeurstic(estimateDistance(start, end));
+		start.setF(start.getHeuristic());
 		
-		while (!(openList.isEmpty())) {
-			Node u = openList.get(openList.size() - 1);
-			openList.remove(openList.size() - 1);
-			if (u.getX() == end.getX() || u.getY() == end.getY()) {
+		openSet.add(start);
+		
+		while (true) {
+			Node current = null;
+			
+			if (openSet.size() == 0) {
+				throw new RuntimeException("no route");
+			}
+			
+			for (Node node : openSet) {
+				if (current == null || node.getF() < current.getF()) {
+					current = node;
+				}
+			}
+
+			//System.out.println(current.getX() + "  " +  current.getY());
+			if (current.getX() == this.end.getX() && current.getY() == this.end.getY()) {
+				end.setParent(current);
 				System.out.println("found");
-				
-				List<Node> totalPath = new ArrayList<Node>();
-				totalPath.add(u);
-//				while (contains(closedList, u)) {
-//					u = closedList.
-//				}
-				System.out.println(closedList);
-				
 				break;
 			}
 			
-			List<Node> neighbors = u.getNeighbors(table.getSize());
-			for (Node n : neighbors) {
-				if (!(contains(closedList, n) || containsInferiorCost(openList, n))) {
-					n.setCost(u.getCost()+1);
-					n.setHeurstic(n.getCost() + this.end.getX()-n.getX() + this.end.getY()-n.getY());
-					openList.add(n);
+			openSet.remove(current);
+			closedSet.add(current);
+			
+			for (Node neighbor : current.getNeighbors(table)) {
+				if (neighbor == null) {
+					continue;
+				}
+				
+				int nextG = current.getG() + neighbor.getCost();
+				
+				if (nextG < neighbor.getG()) {
+					openSet.remove(neighbor);
+					closedSet.remove(neighbor);
+				}
+				
+				if (!openSet.contains(neighbor) && !closedSet.contains(neighbor) && table.getCase(neighbor.getX(), neighbor.getY())!=1) {
+					neighbor.setG(nextG);
+					neighbor.setHeurstic(estimateDistance(neighbor, end));
+					neighbor.setF(neighbor.getG() + neighbor.getHeuristic());
+					neighbor.setParent(current);
+					openSet.add(neighbor);
+					table.setStart(current.getX(), current.getY());
+					view.invalidate();
+					view.repaint();
 				}
 			}
-			closedList.add(u);
-			System.out.println(openList);
 		}
-		System.out.println("NOT FOUND");
 		
-	}
-	
-	public boolean contains(List<Node> list, Node n) {
-		for (Node node : list) {
-			if (node == n) {
-				return true;
-			}
+		List<Node> nodes = new ArrayList<Node>();
+		Node current = end;
+		while (current.getParent() != null) {
+			nodes.add(current);
+			current = current.getParent();
+			table.setPath(current.getX(), current.getY());
 		}
-		return false;
+		table.setEnd(end.getX(), end.getY());
+		table.setStart(start.getX(), start.getY());
+		nodes.add(start);
+		
+		
+		// FRENCH WIKI
+//		List<Node> closedList = new ArrayList<Node>();
+//		List<Node> openList = new ArrayList<Node>();
+//		openList.add(this.start);
+//		
+//		while (!(openList.isEmpty())) {
+//			Node u = openList.get(openList.size() - 1);
+//			openList.remove(openList.size() - 1);
+//			if (u.getX() == end.getX() || u.getY() == end.getY()) {
+//				System.out.println("found");
+//				
+//				List<Node> totalPath = new ArrayList<Node>();
+//				totalPath.add(u);
+//
+//				System.out.println(totalPath);
+//				
+//				break;
+//			}
+//			
+//			List<Node> neighbors = u.getNeighbors(table);
+//			for (Node n : neighbors) {
+//				if (!(closedList.contains(n) || containsInferiorCost(openList, n))) {
+//					n.setCost(u.getCost()+1);
+//					n.setHeurstic(n.getCost() + this.end.getX()-n.getX() + this.end.getY()-n.getY());
+//					openList.add(n);
+//				}
+//			}
+//			closedList.add(u);
+//			System.out.println(openList);
+//		}
+//		System.out.println("NOT FOUND");
+//		
 	}
 	
+//	public boolean contains(List<Node> list, Node n) {
+//		for (Node node : list) {
+//			if (node == n) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	
 	public boolean containsInferiorCost(List<Node> list, Node n) {
 		for (Node node : list) {
 			if (node == n && node.getCost() < n.getCost()) {
@@ -78,6 +146,10 @@ public class A_star {
 		else {
 			return -1;
 		}
+	}
+	
+	public int estimateDistance(Node node1, Node node2) {
+	    return Math.abs(node1.getX() - node2.getX()) + Math.abs(node1.getY() - node2.getY());
 	}
 
 }

@@ -45,6 +45,10 @@ public class Table {
 	public void setEnd(int x, int y) {
 		this.table[x][y] = 3;
 	}
+	
+	public void setPath(int x, int y) {
+		this.table[x][y] = 4;
+	}
 
 	
 	public int getCase(int x, int y) {

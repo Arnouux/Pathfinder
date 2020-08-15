@@ -86,8 +86,12 @@ public class ui extends JFrame implements ActionListener {
 			refresh();
 		}
 		else if(source == a_star_button && table.checkPresence(2) && table.checkPresence(3)) {
+			this.table.show();
 			System.out.println("A*");
-			A_star result = new A_star(this.table);
+			A_star result = new A_star(this.table, this.view);
+			this.view.invalidate();
+			this.view.repaint();
+			this.table.show();
 		}
 		
 

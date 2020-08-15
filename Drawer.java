@@ -71,13 +71,18 @@ public class Drawer extends JPanel implements FocusListener {
 					g.setColor(new Color(0));
 					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 				}
+				else if (this.table.getCase(i, j) == 4) {
+					g.setColor(new Color(2, 150, 55));
+					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
+					g.setColor(new Color(0));
+					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
+				}
 			}
 		}
 	}	
 	
 	public void invalidate() {
 		this.paintImmediately(getBounds());
-		System.out.println("invalidate");
 	}
 	
 	public void draw(Graphics g) {
