@@ -7,7 +7,7 @@ public class BruteForce {
 	Node end;
 	Drawer view;
 	
-	public BruteForce(Table table, Drawer view) {
+	public BruteForce(Table table, Drawer view, ui ui) {
 		this.view = view;
 		Node current = table.getStart();
 		end = table.getEnd();
@@ -27,12 +27,12 @@ public class BruteForce {
 				table.setStart(neighbor.getX(), neighbor.getY());
 				view.invalidate();
 				view.repaint();
-				try {
-					Thread.sleep(100);
-				}
-				catch(InterruptedException e) {
-					
-				}
+//				try {
+//					Thread.sleep(100);
+//				}
+//				catch(InterruptedException e) {
+//					
+//				}
 				search(neighbor, table);
 			}
 		}

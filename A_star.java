@@ -9,7 +9,7 @@ public class A_star {
 	private Node start;
 	private Node end;
 	
-	public A_star(Table table, Drawer view) {
+	public A_star(Table table, Drawer view, ui ui) {
 
 		this.start = table.getStart();
 		this.end = table.getEnd();
@@ -48,23 +48,34 @@ public class A_star {
 			
 			for (Node neighbor : current.getNeighbors(table)) {
 				
-//				int nextG = current.getG() + neighbor.getCost();
-//				
-//				if (nextG < neighbor.getG()) {
-//					openSet.remove(neighbor);
-//					closedSet.remove(neighbor);
-//				}
+				int nextG = current.getG() + neighbor.getCost();
+				
+				if (nextG < neighbor.getG()) {
+					openSet.remove(neighbor);
+					closedSet.remove(neighbor);
+				}
 				
 				if (!(containsInferiorCost(openSet, neighbor) && closedSet.contains(neighbor))) {
 					neighbor.setCost(current.getCost()+1);
-//					neighbor.setG(nextG);
+					neighbor.setG(nextG);
 					neighbor.setHeurstic(estimateDistance(neighbor, end));
-//					neighbor.setF(neighbor.getG() + neighbor.getHeuristic());
+					neighbor.setF(neighbor.getG() + neighbor.getHeuristic());
 					neighbor.setParent(current);
 					openSet.add(neighbor);
-					table.setStart(current.getX(), current.getY());
+					table.setPossiblePath(neighbor.getX(), neighbor.getY());
+
 					view.invalidate();
 					view.repaint();
+					
+					if (!(ui.getSpeedButton().isEmpty()) &&  ui.getSpeedButton() == "x01") {
+						try {
+							Thread.sleep(10);
+						}
+						catch(InterruptedException e) {
+							
+						}
+					}
+
 				}
 			}
 		}
@@ -77,7 +88,12 @@ public class A_star {
 			table.setPath(current.getX(), current.getY());
 		}
 		table.setEnd(end.getX(), end.getY());
-		nodes.add(start);
+		table.setStart(start.getX(), start.getY());
+		//nodes.add(start);
+		
+//		for(Node node : nodes) {
+//			System.out.println(node.getCost());
+//		}
 		
 		
 		// FRENCH WIKI

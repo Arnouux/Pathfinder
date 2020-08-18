@@ -1,8 +1,13 @@
 package visualization;
 
 public class Table {
-	private int[][] table = new int[10][10];
-	private int size = 10;
+	private int[][] table;
+	private int size;
+	
+	public Table(int size) {
+		this.table = new int[size][size];
+		this.size = size;
+	}
 	
 	public void show() {
 		for(int i=0; i<this.table.length; i++) {
@@ -42,12 +47,24 @@ public class Table {
 		this.table[x][y] = 2;
 	}
 	
+	public void setWall(int x, int y) {
+		this.table[x][y] = 1;
+	}
+	
+	public void setNone(int x, int y) {
+		this.table[x][y] = 0;
+	}
+	
 	public void setEnd(int x, int y) {
 		this.table[x][y] = 3;
 	}
 	
-	public void setPath(int x, int y) {
+	public void setPossiblePath(int x, int y) {
 		this.table[x][y] = 4;
+	}
+	
+	public void setPath(int x, int y) {
+		this.table[x][y] = 5;
 	}
 
 	

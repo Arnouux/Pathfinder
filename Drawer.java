@@ -56,27 +56,25 @@ public class Drawer extends JPanel implements FocusListener {
 				if (this.table.getCase(i, j) == 1) {
 					g.setColor(new Color(55, 55, 55));
 					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
-					g.setColor(new Color(0));
-					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 				}
 				else if (this.table.getCase(i, j) == 2) {
 					g.setColor(new Color(2, 200, 55));
 					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
-					g.setColor(new Color(0));
-					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 				}
 				else if (this.table.getCase(i, j) == 3) {
 					g.setColor(new Color(200, 2, 55));
 					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
-					g.setColor(new Color(0));
-					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 				}
 				else if (this.table.getCase(i, j) == 4) {
+					g.setColor(new Color(100, 230, 150));
+					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
+				}
+				else if (this.table.getCase(i, j) == 5) {
 					g.setColor(new Color(2, 150, 55));
 					g.fillRect(401/size*i, 401/size*j, 401/size, 401/size);
-					g.setColor(new Color(0));
-					g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 				}
+				g.setColor(new Color(0));
+				g.drawRect(401/size*i, 401/size*j, 401/size, 401/size);
 			}
 		}
 	}	
